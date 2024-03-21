@@ -9,12 +9,37 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Skvis">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Window.Styles>
+        <Style Selector="Grid.root > :is(Control)">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </Window.Styles>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid
+        Classes="root"
+        ColumnDefinitions="* *"
+        RowDefinitions="* Auto Auto">
+        <ListBox Grid.ColumnSpan="2" Margin="0"></ListBox>
+
+        <Grid Grid.Row="1" Grid.Column="0" ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto">
+            <Label Name="QualitySliderLabel" Target="QualitySlider" />
+            <Label Grid.Row="1" Grid.Column="2" Name="QualitySliderValueLabel" />
+            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="QualitySlider" Minimum="5" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="5" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto">
+            <Label Name="PercentSliderLabel" Target="PercentSlider" />
+            <Label Grid.Row="1" Grid.Column="2" Name="PercentSliderValueLabel" />
+            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="PercentSlider" Minimum="5" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="5" />
+        </Grid>
+
+        <Button
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Name="SqueezeButton"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center" Padding="10">
+        </Button>
+    </Grid>
 
 </Window>
