@@ -1,8 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Skvis.ViewModels;
 using Skvis.Views;
+using Skvis.Views.Main;
 
 namespace Skvis;
 
