@@ -29,9 +29,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="main:File">
                     <Grid
-                        ColumnDefinitions="Auto Auto * Auto">
+                        ColumnDefinitions="Auto * Auto">
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="{Binding DirectoryPath, StringFormat=({0})}" Opacity=".7" Margin="10,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding DirectoryPath}" Opacity=".7" Margin="10,0,0,0" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
