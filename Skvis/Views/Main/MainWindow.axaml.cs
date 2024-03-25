@@ -49,8 +49,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 			this.BindCommand(ViewModel,
 				vm => vm.SqueezeCommand,
 				v => v.SqueezeButton);
-			ViewModel.SqueezeCommand.IsExecuting
-				.Select(ie => !ie)
+			Observable.CombineLatest(
+					ViewModel.AddFileCommand.IsExecuting,
+					ViewModel.SqueezeCommand.IsExecuting,
+					(afc, sc) => !(afc && sc))
 				.BindTo(this, v => v.SqueezeButton.IsEnabled)
 				.DisposeWith(d);
 		});

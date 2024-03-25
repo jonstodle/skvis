@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -23,7 +23,6 @@ public class MainWindowViewModel : ViewModelBase
 			_storageFiles
 				.Connect()
 				.Transform(isf => new File(
-					Guid.NewGuid(),
 					isf.Name,
 					new FileInfo(isf.Path.AbsolutePath).DirectoryName,
 					isf))
@@ -32,7 +31,7 @@ public class MainWindowViewModel : ViewModelBase
 				.Subscribe(Observer.Create<IChangeSet<File>>(_ => { }))
 				.DisposeWith(d);
 		});
-		AddFileCommand = ReactiveCommand.Create<IStorageItem>(AddFile);
+		AddFileCommand = ReactiveCommand.CreateFromTask<IStorageItem>(AddFile);
 		RemoveFileCommand = ReactiveCommand.Create(RemoveFile);
 		SqueezeCommand = ReactiveCommand.CreateFromTask(Squeeze);
 	}
@@ -57,14 +56,37 @@ public class MainWindowViewModel : ViewModelBase
 
 	private SourceList<IStorageFile> _storageFiles = new();
 
-	private void AddFile(IStorageItem storageItem)
+	private async Task AddFile(IStorageItem storageItem)
 	{
-		if (storageItem is not IStorageFile file)
+		async Task<List<IStorageFile>> GetFiles(
+			List<IStorageFile> files,
+			IStorageFolder folder)
 		{
-			return;
+			await foreach (var item in folder.GetItemsAsync())
+			{
+				switch (item)
+				{
+					case IStorageFile file:
+						files.Add(file);
+						break;
+					case IStorageFolder subFolder:
+						await GetFiles(files, subFolder);
+						break;
+				}
+			}
+
+			return files;
 		}
 
-		_storageFiles.Add(file);
+		switch (storageItem)
+		{
+			case IStorageFile file:
+				_storageFiles.Add(file);
+				break;
+			case IStorageFolder folder:
+				_storageFiles.AddRange(await GetFiles(new(), folder));
+				break;
+		}
 	}
 
 	private void RemoveFile()
@@ -80,4 +102,4 @@ public class MainWindowViewModel : ViewModelBase
 	private Task Squeeze() => Task.Delay(3000);
 }
 
-public record File(Guid Id, string Name, string? DirectoryPath, IStorageFile StorageFile);
+public record File(string Name, string? DirectoryPath, IStorageFile StorageFile);
