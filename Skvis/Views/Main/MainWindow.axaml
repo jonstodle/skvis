@@ -1,11 +1,11 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Skvis.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:main="clr-namespace:Skvis.Views.Main"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Skvis.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:Class="Skvis.Views.Main.MainWindow"
+        x:DataType="main:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Skvis">
 
@@ -16,21 +16,35 @@
     </Window.Styles>
 
     <Grid
+        Name="ContainerGrid"
         Classes="root"
         ColumnDefinitions="* *"
-        RowDefinitions="* Auto Auto">
-        <ListBox Grid.ColumnSpan="2" Margin="0"></ListBox>
+        RowDefinitions="* Auto Auto"
+        DragDrop.AllowDrop="True">
+        <ListBox Grid.ColumnSpan="2" Margin="0" Name="FilesListBox">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="main:File">
+                    <Grid
+                        ColumnDefinitions="Auto Auto * Auto">
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Grid.Column="1" Text="{Binding DirectoryPath, StringFormat=({0})}" Opacity=".7" Margin="10,0" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <Grid Grid.Row="1" Grid.Column="0" ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto">
             <Label Name="QualitySliderLabel" Target="QualitySlider" />
-            <Label Grid.Row="1" Grid.Column="2" Name="QualitySliderValueLabel" />
-            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="QualitySlider" Minimum="5" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="5" />
+            <Label Grid.Row="0" Grid.Column="2" Name="QualitySliderValueLabel" />
+            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="QualitySlider" Minimum="5" Maximum="100"
+                    IsSnapToTickEnabled="True" TickFrequency="5" />
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="Auto * Auto" RowDefinitions="Auto Auto">
             <Label Name="PercentSliderLabel" Target="PercentSlider" />
-            <Label Grid.Row="1" Grid.Column="2" Name="PercentSliderValueLabel" />
-            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="PercentSlider" Minimum="5" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="5" />
+            <Label Grid.Row="0" Grid.Column="2" Name="PercentSliderValueLabel" />
+            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="PercentSlider" Minimum="5" Maximum="100"
+                    IsSnapToTickEnabled="True" TickFrequency="5" />
         </Grid>
 
         <Button

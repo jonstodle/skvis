@@ -1,8 +1,12 @@
-using Avalonia.Controls;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using Avalonia.Input;
+using Avalonia.ReactiveUI;
+using ReactiveUI;
 
-namespace Skvis.Views;
+namespace Skvis.Views.Main;
 
-public partial class MainWindow : Window
+public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
 	public MainWindow()
 	{
@@ -11,5 +15,49 @@ public partial class MainWindow : Window
 		QualitySliderLabel.Content = Strings.MainWindow.QualitySliderLabel;
 		PercentSliderLabel.Content = Strings.MainWindow.PercentSliderLabel;
 		SqueezeButton.Content = Strings.MainWindow.SqueezeButton;
+
+		this.WhenActivated(d =>
+		{
+			this.OneWayBind(ViewModel,
+				vm => vm.Files,
+				v => v.FilesListBox.ItemsSource)
+				.DisposeWith(d);
+			this.Bind(ViewModel,
+					vm => vm.Quality,
+					v => v.QualitySlider.Value)
+				.DisposeWith(d);
+			this.OneWayBind(ViewModel,
+					vm => vm.Quality,
+					v => v.QualitySliderValueLabel.Content)
+				.DisposeWith(d);
+			this.Bind(ViewModel,
+					vm => vm.Percent,
+					v => v.PercentSlider.Value)
+				.DisposeWith(d);
+			this.OneWayBind(ViewModel,
+					vm => vm.Percent,
+					v => v.PercentSliderValueLabel.Content)
+				.DisposeWith(d);
+			this.BindCommand(ViewModel,
+				vm => vm.SqueezeCommand,
+				v => v.SqueezeButton);
+			ViewModel.SqueezeCommand.IsExecuting
+				.Select(ie => !ie)
+				.BindTo(this, v => v.SqueezeButton.IsEnabled)
+				.DisposeWith(d);
+		});
+
+		AddHandler(DragDrop.DropEvent, Drop);
+	}
+
+	private void Drop(object? sender, DragEventArgs e)
+	{
+		if (!e.Data.Contains(DataFormats.Files) || e.Data.GetFiles() is not { } files)
+		{
+			return;
+		}
+
+		files.ToObservable()
+			.InvokeCommand(ViewModel!.AddFileCommand);
 	}
 }
