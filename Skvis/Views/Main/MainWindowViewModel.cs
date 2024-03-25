@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -58,8 +59,12 @@ public class MainWindowViewModel : ViewModelBase
 
 	private SourceList<IStorageFile> _storageFiles = new();
 
+	private static readonly string[] ImageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff"];
 	private async Task AddFile(IStorageItem storageItem)
 	{
+		bool IsImageFile(string fileName) =>
+				ImageExtensions.Contains(Path.GetExtension(fileName).ToLower());
+
 		async Task<List<IStorageFile>> GetFiles(
 			List<IStorageFile> files,
 			IStorageFolder folder)
@@ -69,7 +74,11 @@ public class MainWindowViewModel : ViewModelBase
 				switch (item)
 				{
 					case IStorageFile file:
-						files.Add(file);
+						if (IsImageFile(file.Name))
+						{
+							files.Add(file);
+						}
+
 						break;
 					case IStorageFolder subFolder:
 						await GetFiles(files, subFolder);
@@ -83,7 +92,11 @@ public class MainWindowViewModel : ViewModelBase
 		switch (storageItem)
 		{
 			case IStorageFile file:
-				_storageFiles.Add(file);
+				if (IsImageFile(file.Name))
+				{
+					_storageFiles.Add(file);
+				}
+
 				break;
 			case IStorageFolder folder:
 				_storageFiles.AddRange(await GetFiles(new(), folder));
