@@ -21,7 +21,11 @@
         ColumnDefinitions="* *"
         RowDefinitions="* Auto Auto"
         DragDrop.AllowDrop="True">
-        <ListBox Grid.ColumnSpan="2" Margin="0" Name="FilesListBox">
+        <ListBox Grid.ColumnSpan="2" Margin="0" Name="FilesListBox" SelectionMode="Single">
+            <ListBox.KeyBindings>
+                <KeyBinding Gesture="Delete" Command="{Binding RemoveFileCommand}" />
+            </ListBox.KeyBindings>
+
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="main:File">
                     <Grid

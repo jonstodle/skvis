@@ -1,5 +1,9 @@
+using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
@@ -19,8 +23,12 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 		this.WhenActivated(d =>
 		{
 			this.OneWayBind(ViewModel,
-				vm => vm.Files,
-				v => v.FilesListBox.ItemsSource)
+					vm => vm.Files,
+					v => v.FilesListBox.ItemsSource)
+				.DisposeWith(d);
+			this.Bind(ViewModel,
+					vm => vm.SelectedFile,
+					v => v.FilesListBox.SelectedItem)
 				.DisposeWith(d);
 			this.Bind(ViewModel,
 					vm => vm.Quality,
