@@ -6,6 +6,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Avalonia.Platform.Storage;
 using DynamicData;
 using ReactiveUI;
@@ -24,8 +25,9 @@ public class MainWindowViewModel : ViewModelBase
 				.Connect()
 				.Transform(isf => new File(
 					isf.Name,
-					new FileInfo(isf.Path.AbsolutePath).DirectoryName,
+					new FileInfo(HttpUtility.UrlDecode(isf.Path.AbsolutePath)).DirectoryName,
 					isf))
+				.Sort(FileComparer.Instance)
 				.ObserveOn(RxApp.MainThreadScheduler)
 				.Bind(out _files)
 				.Subscribe(Observer.Create<IChangeSet<File>>(_ => { }))
@@ -103,3 +105,18 @@ public class MainWindowViewModel : ViewModelBase
 }
 
 public record File(string Name, string? DirectoryPath, IStorageFile StorageFile);
+
+public class FileComparer : IComparer<File>
+{
+	public static FileComparer Instance { get; } = new();
+
+	public int Compare(File x, File y)
+	{
+		if (ReferenceEquals(x, y)) return 0;
+		if (ReferenceEquals(null, y)) return 1;
+		if (ReferenceEquals(null, x)) return -1;
+		var directoryComparison = string.Compare(x.DirectoryPath, y.DirectoryPath, StringComparison.Ordinal);
+		if (directoryComparison != 0) return directoryComparison;
+		return string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+	}
+}
