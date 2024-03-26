@@ -17,7 +17,6 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 		InitializeComponent();
 
 		QualitySliderLabel.Content = Strings.MainWindow.QualitySliderLabel;
-		PercentSliderLabel.Content = Strings.MainWindow.PercentSliderLabel;
 		SqueezeButton.Content = Strings.MainWindow.SqueezeButton;
 
 		this.WhenActivated(d =>
@@ -37,14 +36,6 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 			this.OneWayBind(ViewModel,
 					vm => vm.Quality,
 					v => v.QualitySliderValueLabel.Content)
-				.DisposeWith(d);
-			this.Bind(ViewModel,
-					vm => vm.Percent,
-					v => v.PercentSlider.Value)
-				.DisposeWith(d);
-			this.OneWayBind(ViewModel,
-					vm => vm.Percent,
-					v => v.PercentSliderValueLabel.Content)
 				.DisposeWith(d);
 			this.BindCommand(ViewModel,
 				vm => vm.SqueezeCommand,

@@ -47,9 +47,6 @@ public class MainWindowViewModel : ViewModelBase
 	[Reactive]
 	public int Quality { get; set; }
 
-	[Reactive]
-	public int Percent { get; set; }
-
 	public ReactiveCommand<IStorageItem, Unit> AddFileCommand { get; }
 
 	public ReactiveCommand<Unit, Unit> RemoveFileCommand { get; }
