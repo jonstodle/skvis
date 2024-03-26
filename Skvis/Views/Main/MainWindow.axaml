@@ -30,8 +30,11 @@
                 <DataTemplate DataType="main:File">
                     <Grid
                         ColumnDefinitions="Auto * Auto">
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock Grid.Column="2" Text="{Binding DirectoryPath}" Opacity=".7" Margin="10,0,0,0" />
+                        <TextBlock Text="{Binding Name}">
+                            <ToolTip.Tip>
+                                <TextBlock Text="{Binding DirectoryPath}" Opacity=".7" Margin="10,0,0,0" />
+                            </ToolTip.Tip>
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
