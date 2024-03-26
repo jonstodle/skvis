@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:main="clr-namespace:Skvis.Views.Main"
+        xmlns:skvis="clr-namespace:Skvis"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Skvis.Views.Main.MainWindow"
         x:DataType="main:MainWindowViewModel"
@@ -29,12 +30,16 @@
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="main:File">
                     <Grid
-                        ColumnDefinitions="Auto * Auto">
+                        ColumnDefinitions="Auto Auto">
                         <TextBlock Text="{Binding Name}">
                             <ToolTip.Tip>
-                                <TextBlock Text="{Binding DirectoryPath}" Opacity=".7" Margin="10,0,0,0" />
+                                <TextBlock Text="{Binding DirectoryPath}" Opacity=".7" />
                             </ToolTip.Tip>
                         </TextBlock>
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="{Binding Status, Converter={x:Static skvis:ValueConverters.ConversionStatusToString}}"
+                            Margin="10,0,0,0" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
