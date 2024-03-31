@@ -16,6 +16,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 	{
 		InitializeComponent();
 
+		DropFilesTextBlock.Text = Strings.MainWindow.DropFilesTextBlock;
 		QualitySliderLabel.Content = Strings.MainWindow.QualitySliderLabel;
 		SqueezeButton.Content = Strings.MainWindow.SqueezeButton;
 
@@ -29,6 +30,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 					vm => vm.SelectedFile,
 					v => v.FilesListBox.SelectedItem)
 				.DisposeWith(d);
+			this.OneWayBind(ViewModel,
+				vm => vm.Files.Count,
+				v => v.DropFilesTextBlock.IsVisible,
+				fileCount => fileCount == 0);
 			this.Bind(ViewModel,
 					vm => vm.Quality,
 					v => v.QualitySlider.Value)
