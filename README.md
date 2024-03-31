@@ -1,20 +1,8 @@
-<h1>
-<svg width="32" height="32" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_1_2)">
-<path d="M108.333 7H19.6667C12.6711 7 7 12.6711 7 19.6667V64L46.7812 108.333L58.2604 121L73 108.333L121 64V19.6667C121 12.6711 115.329 7 108.333 7Z" fill="#D9D9D9" stroke="black" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M45 58C52.1797 58 58 52.1797 58 45C58 37.8203 52.1797 32 45 32C37.8203 32 32 37.8203 32 45C32 52.1797 37.8203 58 45 58Z" fill="#D9D9D9" stroke="black" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M105 75.7035L92.656 61.664C91.1558 59.9582 89.1213 59 87 59C84.8787 59 82.8442 59.9582 81.344 61.664L45 103" fill="#D9D9D9"/>
-<path d="M105 75.7035L92.656 61.664C91.1558 59.9582 89.1213 59 87 59C84.8787 59 82.8442 59.9582 81.344 61.664L45 103" stroke="black" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-<defs>
-<clipPath id="clip0_1_2">
-<rect width="128" height="128" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-Skvis
-</h1>
+<div style="text-align: center">
 
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+![Skvis logo](skvis-logo.svg)
+</div>
+
+# Skvis
 
 Skvis is a simple tool for shrinking image files and converting them to webp. Developed to be used for images used in [Foundry VTT](https://foundryvtt.com/).
