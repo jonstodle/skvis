@@ -65,7 +65,8 @@
             Grid.ColumnSpan="2"
             Name="SqueezeButton"
             HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Center" Padding="10">
+            HorizontalContentAlignment="Center"
+            Padding="10">
         </Button>
     </Grid>
 
