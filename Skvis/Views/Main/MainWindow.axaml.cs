@@ -1,9 +1,5 @@
-using System;
-using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
@@ -16,6 +12,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 	{
 		InitializeComponent();
 
+		Title = Strings.AppName;
 		DropFilesTextBlock.Text = Strings.MainWindow.DropFilesTextBlock;
 		QualitySliderLabel.Content = Strings.MainWindow.QualitySliderLabel;
 		SqueezeButton.Content = Strings.MainWindow.SqueezeButton;
