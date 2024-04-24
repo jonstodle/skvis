@@ -6,7 +6,7 @@ build-mac:
 
 zip-mac:
     @echo "Zipping macOS binary..."
-    cd Skvis/bin/Release/net8.0/osx-x64/publish && zip -r Skvis-mac.zip Skvis.app
+    cd Skvis/bin/Release/net8.0/osx-x64/publish && zip -r Skvis-macos.zip Skvis.app
 
 build-linux:
     @echo "Building Linux binary..."
