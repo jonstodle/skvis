@@ -2,7 +2,7 @@ image: alpine/3.19
 packages:
   - just
 tasks:
-  - build: just build-all
+  - build: cd skvis && just build-all
 artifacts:
   - 'skvis/Skvis/bin/Release/net8.0/osx-x64/publish/Skvis.app'
   - 'skvis/Skvis/bin/Release/net8.0/win-x64/publish/Skvis.exe'
