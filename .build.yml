@@ -1,5 +1,6 @@
-image: alpine/3.19
+image: alpine/edge
 packages:
+  - dotnet8-sdk
   - just
 tasks:
   - build: |
