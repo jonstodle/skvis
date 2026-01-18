@@ -24,5 +24,5 @@ filePaths
             .SaveAsWebp(destinationPath, new WebpEncoder { Quality = 70 });
         
         var numberDone = Interlocked.Increment(ref imagesDone);
-        Console.WriteLine($"Conversion done: {Path.GetFileName(destinationPath)} [{numberDone}/{filePaths.Count}]");
+        Console.WriteLine($"[{numberDone.ToString().PadLeft(filePaths.Count.ToString().Length)}/{filePaths.Count}] done: {Path.GetFileName(destinationPath)}");
     });
